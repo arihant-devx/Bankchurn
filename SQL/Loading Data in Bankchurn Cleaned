@@ -1,0 +1,66 @@
+-- Make sure you're using the right database
+USE BankChurn;
+
+-- Drop the procedure if it exists
+DROP PROCEDURE IF EXISTS reload_bankchurn_cleaned;
+
+DELIMITER $$
+
+CREATE PROCEDURE reload_bankchurn_cleaned()
+BEGIN
+    -- Step 1: Truncate cleaned table
+    TRUNCATE TABLE bankchurn_cleaned;
+
+    -- Step 2: Insert cleaned data from raw table
+    INSERT INTO bankchurn_cleaned (
+        credit_score,
+        country,
+        gender,
+        age,
+        tenure,
+        balance,
+        products_number,
+        credit_card,
+        active_member,
+        estimated_salary,
+        churn
+    )
+    SELECT
+        credit_score,
+
+        -- Handle NULL or empty countries
+        IF(country IS NULL OR TRIM(country) = '', 'Unknown', country) AS country,
+
+        -- Normalize gender values
+        CASE 
+            WHEN gender IS NULL OR TRIM(gender) = '' THEN 'Unknown'
+            WHEN LOWER(gender) IN ('f', 'female') THEN 'Female'
+            WHEN LOWER(gender) IN ('m', 'male') THEN 'Male'
+            ELSE 'Other'
+        END AS gender,
+
+        age,
+        tenure,
+        balance,
+        products_number,
+        credit_card,
+        active_member,
+
+        -- Fill missing estimated_salary with average
+        IFNULL(estimated_salary, (
+            SELECT AVG(estimated_salary) 
+            FROM bankchurn_raw 
+            WHERE estimated_salary IS NOT NULL
+        )) AS estimated_salary,
+
+        churn
+    FROM bankchurn_raw;
+END $$
+
+DELIMITER ;
+
+-- Run the procedure
+CALL reload_bankchurn_cleaned();
+
+-- Show results
+SELECT * FROM bankchurn_cleaned;
