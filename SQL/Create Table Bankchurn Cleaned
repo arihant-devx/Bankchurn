@@ -1,0 +1,19 @@
+USE BankChurn;
+
+-- Drop the table if it already exists
+DROP TABLE IF EXISTS bankchurn_cleaned;
+
+-- Create the cleaned table
+CREATE TABLE bankchurn_cleaned (
+	credit_score      INT,
+	country           VARCHAR(50),
+	gender            VARCHAR(50),
+	age               INT,
+	tenure            INT,
+	balance           FLOAT,
+	products_number   INT,
+	credit_card       BOOLEAN,
+	active_member     BOOLEAN,
+	estimated_salary  FLOAT,
+	churn             BOOLEAN
+);
