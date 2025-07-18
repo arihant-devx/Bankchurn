@@ -1,0 +1,13 @@
+-- Make sure you're using the right database
+USE BankChurn;
+
+-- Truncate old data if any
+TRUNCATE TABLE bankchurn_raw;
+
+-- Load CSV data
+LOAD DATA LOCAL INFILE 'C:/Users/ASUS/Desktop/bankchurnforecasting/bank_churn_raw.csv'
+INTO TABLE bankchurn_raw
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
