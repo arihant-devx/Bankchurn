@@ -1,0 +1,8 @@
+-- DROP and recreate the 'BankChurn' database
+DROP DATABASE IF EXISTS Bankchurn;
+
+-- Create the 'BankChurn' database
+CREATE DATABASE BankChurn;
+
+-- Switch to the newly created database
+USE BankChurn;
