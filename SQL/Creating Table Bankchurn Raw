@@ -1,0 +1,25 @@
+-- Use the database
+USE BankChurn;
+
+-- Drop the table if it already exists
+DROP TABLE IF EXISTS bankchurn_raw;
+
+-- Create the table
+CREATE TABLE bankchurn_raw (
+	customer_id       INT,
+	credit_score      INT,
+	country           VARCHAR(50),
+	gender            VARCHAR(50),
+	age               INT,
+	tenure            INT,
+	balance           FLOAT,
+	products_number   INT,
+	credit_card       BOOLEAN,
+	active_member     BOOLEAN,
+	estimated_salary  FLOAT,
+	churn             BOOLEAN
+);
+
+-- Select from the table
+SELECT * FROM bankchurn_raw;
+
